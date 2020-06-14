@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace Sportsbet.DB
 {
+    //NOT used becuse of using Azure CosmosDB
     public class NorthwindContext : DbContext
     {
-
-        //public static readonly ILoggerFactory MyLoggerFactory
-        //   = LoggerFactory.Create(builder => { builder.AddConsole(); });
-
         public NorthwindContext() { }
 
         public NorthwindContext(DbContextOptions<NorthwindContext> options)

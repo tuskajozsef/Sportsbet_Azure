@@ -16,16 +16,15 @@ using System.Threading.Tasks;
 
 namespace Sportsbet.BLL.Services
 {
-    public class EventService : IEventService
+    public class CosmosService : ICosmosService
     {
-        private Container _container;
+        private Container eventContainer;
         private Container categoryContainer;
         private Container ticketContainer;
-        //private readonly NorthwindContext _container;
 
-        public EventService(CosmosClient dbClient, string databaseName, string containerName)
+        public CosmosService(CosmosClient dbClient, string databaseName, string containerName)
         {
-            _container = dbClient.GetContainer(databaseName, "events");
+            eventContainer = dbClient.GetContainer(databaseName, "events");
             ticketContainer = dbClient.GetContainer(databaseName, "tickets");
             categoryContainer = dbClient.GetContainer(databaseName, "categories");
 
@@ -34,7 +33,7 @@ namespace Sportsbet.BLL.Services
 
         private async void SeedDatabaseAsync()
         {
-            if (!_container.GetItemLinqQueryable<Event>(true).ToList().Any())
+            if (!eventContainer.GetItemLinqQueryable<Event>(true).ToList().Any())
             {
                 var category_1 = new Category
                 {
@@ -44,7 +43,6 @@ namespace Sportsbet.BLL.Services
                 var category_2 = new Category
                 {
                     Name = "Handball",
-                    //Id = Guid.NewGuid()
                 };
 
                 await categoryContainer.CreateItemAsync(category_1);
@@ -83,9 +81,9 @@ namespace Sportsbet.BLL.Services
                     Category = category_2,
                 };
 
-                await _container.CreateItemAsync(event_1);
-                await _container.CreateItemAsync(event_2);
-                await _container.CreateItemAsync(event_3);
+                await eventContainer.CreateItemAsync(event_1);
+                await eventContainer.CreateItemAsync(event_2);
+                await eventContainer.CreateItemAsync(event_3);
   
                 Ticket t1 = new Ticket();
                 Ticket t2 = new Ticket();
@@ -103,34 +101,14 @@ namespace Sportsbet.BLL.Services
 
         public async Task DeleteEventAsync(string eventId)
         {
-            //_container.Events.Remove(new Event { Id = eventId });
-            //try
-            //{
-            //    await _container.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if ((await _container.Events
-            //    .SingleOrDefaultAsync(e => e.Id == eventId)) == null)
-            //        throw new Exception("Nem található a termék");
-            //    else throw;
-            //}
-            //TODO lehet nem lesz jó
-            await _container.DeleteItemAsync<Event>(eventId, new PartitionKey(eventId));
+            await eventContainer.DeleteItemAsync<Event>(eventId, new PartitionKey(eventId));
         }
 
         public async Task<Event> GetEventAsync(string eventId)
         {
-            //{
-            //    return (await _container.Events
-            //       .Include(e => e.HomeTeam)
-            //       .Include(e => e.AwayTeam)
-            //       .SingleOrDefaultAsync(e => e.Id == eventId))
-            //       ?? throw new Exception("Nem található a termék");
-
             try
             {
-                ItemResponse<Event> response = await _container.ReadItemAsync<Event>(eventId.ToString(), new PartitionKey());
+                ItemResponse<Event> response = await eventContainer.ReadItemAsync<Event>(eventId.ToString(), new PartitionKey());
                 return response.Resource;
             }
 
@@ -142,19 +120,8 @@ namespace Sportsbet.BLL.Services
 
         public async Task<IEnumerable<Event>> GetEventsAsync()
         {
-            //var events = await _container.Events
-            //    .ToListAsync();
-
-            //return events;
-
-            var query = _container.GetItemLinqQueryable<Event>(true);
+            var query = eventContainer.GetItemLinqQueryable<Event>(true);
             List<Event> events = new List<Event>(query.ToList());
-
-            //while (query.HasMoreResults)
-            //{
-            //    var response = query.ReadNextAsync();
-            //    events.AddRange(response.Result.);
-            //}
 
             return events;
            
@@ -162,36 +129,17 @@ namespace Sportsbet.BLL.Services
 
         public async Task<Event> InsertEventAsync(Event newEvent)
         {
-            //_container.Events.Add(newEvent);
-            //await _container.SaveChangesAsync();
-            //return newEvent;
-
-            return await _container.CreateItemAsync(newEvent);
+            return await eventContainer.CreateItemAsync(newEvent);
         }
 
         public async Task UpdateEventAsync(string eventId, Event updatedEvent)
         {
-            //updatedEvent.Id = eventId;
-            //var entry = _container.Attach(updatedEvent);
-            //entry.State = EntityState.Modified;
-            //try
-            //{
-            //    await _container.SaveChangesAsync(); //async változat hívása
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if ((await _container.Events
-            //            .SingleOrDefaultAsync(p => p.Id == eventId)) == null)
-            //        throw new Exception("Nem található a termék");
-            //    else throw;
-            //}
-
-            await _container.UpsertItemAsync<Event>(updatedEvent, new PartitionKey(eventId));
+            await eventContainer.UpsertItemAsync<Event>(updatedEvent, new PartitionKey(eventId));
         }
 
         public async void SaveToJson(string path)
         {
-            var events = await _container.GetItemLinqQueryable<Event>()
+            var events = await eventContainer.GetItemLinqQueryable<Event>()
                 .ToListAsync();
 
             string file = path;
@@ -232,7 +180,7 @@ namespace Sportsbet.BLL.Services
                     list = JsonConvert.DeserializeObject<List<Event>>(json);
 
                     foreach (Event e in list)
-                        await _container.CreateItemAsync<Event>(e);
+                        await eventContainer.CreateItemAsync<Event>(e);
                 }
             }
 

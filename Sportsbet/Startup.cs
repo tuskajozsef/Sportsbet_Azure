@@ -33,12 +33,8 @@ namespace Sportsbet
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            //services.AddDbContext<NorthwindContext>(o =>
-            //o.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("Sportsbet")));
-            //services.AddTransient<IEventService, EventService>();
-
-            services.AddSingleton <IEventService>(InitializeCosmosClientInstanseAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+            services.AddSingleton <ICosmosService>(InitializeCosmosClientInstanseAsync(Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+            services.AddSingleton<IConfiguration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,25 +50,21 @@ namespace Sportsbet
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapGet("/", async context =>
-                //{
-                //    await context.Response.WriteAsync("Hello World!");
-                //});
             });
         }
 
-        private static async Task<EventService> InitializeCosmosClientInstanseAsync(IConfigurationSection configurationSection)
+        private async Task<CosmosService> InitializeCosmosClientInstanseAsync(IConfiguration configuration)
         {
-            string databaseName = configurationSection.GetSection("DatabaseName").Value;
-            //string containerName = configurationSection.GetSection("DatabaseName").Value;
-            string account = configurationSection.GetSection("Endpoint").Value;
-            string key = configurationSection.GetSection("Key").Value;
+            
+            string databaseName = Configuration["DatabaseName"];
+            string account = Configuration["Endpoint"];
+            string key = Configuration["Key"];
 
             CosmosClientBuilder clientBuilder = new CosmosClientBuilder(account, key);
             CosmosClient client = clientBuilder
                 .WithConnectionModeDirect()
                 .Build();
-            EventService eventService = new EventService(client, databaseName, "events");
+            CosmosService eventService = new CosmosService(client, databaseName, "events");
             DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
             await database.Database.CreateContainerIfNotExistsAsync("events", "/id");
             await database.Database.CreateContainerIfNotExistsAsync("tickets", "/id");

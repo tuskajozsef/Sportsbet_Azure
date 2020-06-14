@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sportsbet", "Sportsbet\Sportsbet.csproj", "{5D47028B-A305-444B-897D-D70ABB6BD227}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportsbet.DAL", "Sportsbet.DAL\Sportsbet.DAL.csproj", "{8C0C5CEA-9389-402F-8678-A5B88829A7ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sportsbet.DAL", "Sportsbet.DAL\Sportsbet.DAL.csproj", "{8C0C5CEA-9389-402F-8678-A5B88829A7ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportsbet.BLL", "Sportsbet.BLL\Sportsbet.BLL.csproj", "{981B3B44-129D-4E5F-B7AD-1560945779F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sportsbet.BLL", "Sportsbet.BLL\Sportsbet.BLL.csproj", "{981B3B44-129D-4E5F-B7AD-1560945779F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportsbet.Client", "Sportsbet.Client\Sportsbet.Client.csproj", "{E084F191-B2AB-4BC1-93FC-92B05D1953EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,26 @@ Global
 		{981B3B44-129D-4E5F-B7AD-1560945779F8}.Release|x64.Build.0 = Release|Any CPU
 		{981B3B44-129D-4E5F-B7AD-1560945779F8}.Release|x86.ActiveCfg = Release|Any CPU
 		{981B3B44-129D-4E5F-B7AD-1560945779F8}.Release|x86.Build.0 = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Debug|x86.Build.0 = Debug|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|ARM.Build.0 = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|ARM64.Build.0 = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|x64.Build.0 = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{E084F191-B2AB-4BC1-93FC-92B05D1953EB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

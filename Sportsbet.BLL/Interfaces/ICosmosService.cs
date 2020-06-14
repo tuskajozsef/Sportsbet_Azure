@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sportsbet.BLL.Services
 {
-    public interface IEventService
+    public interface ICosmosService
     {
         Task<Event> GetEventAsync(string eventId);
         Task<IEnumerable<Event>> GetEventsAsync();

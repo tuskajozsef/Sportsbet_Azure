@@ -17,19 +17,19 @@ namespace Sportsbet.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private readonly IEventService _eventService;
+        private readonly ICosmosService _cosmosService;
         //private readonly IMapper _mapper;
 
-        public EventsController(IEventService eventService)
+        public EventsController(ICosmosService eventService)
         {
-            _eventService = eventService;
+            _cosmosService = eventService;
         }
 
         // GET: api/Events
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
         {
-            var list = await _eventService.GetEventsAsync();
+            var list = await _cosmosService.GetEventsAsync();
 
             return new List<Event>(list);
         }
@@ -38,7 +38,7 @@ namespace Sportsbet.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Event>> GetEvent(string id)
         {
-            return await _eventService.GetEventAsync(id);
+            return await _cosmosService.GetEventAsync(id);
         }
 
         // PUT: api/Events/5
@@ -47,7 +47,7 @@ namespace Sportsbet.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEvent(string id, Event @event)
         {
-            await _eventService.UpdateEventAsync(id, @event);
+            await _cosmosService.UpdateEventAsync(id, @event);
             return NoContent();
         }
 
@@ -57,7 +57,7 @@ namespace Sportsbet.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event @event)
         {
-            var created = await _eventService.InsertEventAsync(@event);
+            var created = await _cosmosService.InsertEventAsync(@event);
             return created;
         }
 
@@ -66,20 +66,20 @@ namespace Sportsbet.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Event>> DeleteEvent(string id)
         {
-            await _eventService.DeleteEventAsync(id);
+            await _cosmosService.DeleteEventAsync(id);
             return NoContent();
         }
 
         [HttpGet("Save")]
         public void Save()
         {
-            _eventService.SaveToJson();
+            _cosmosService.SaveToJson();
         }
 
         [HttpGet("Load")]
         public void Load()
         {
-            _eventService.LoadFromJson();
+            _cosmosService.LoadFromJson();
         }
 
     }
